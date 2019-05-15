@@ -19,8 +19,19 @@ import android.widget.Toast;
 
 import com.deepra.oauth.twideepandroid.OAuthInfo;
 import com.deepra.twitter.TwitterRetrofit;
+import com.deepra.twitter.data.TwData;
 import com.deepra.utils.AlertDialogManager;
 import com.deepra.utils.ConnectionDetector;
+
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.X509TrustManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +46,7 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements TWDataProvider {
 
     static String TWITTER_CONSUMER_KEY = "nao1AudMEZKg6fnuDcG3aZRxS";
     static String TWITTER_CONSUMER_SECRET = "IRPAjITeqcCBrqeOCjaxivINuYpWfkSzrPnKBlMcgYQxNuyTO7";
@@ -65,8 +76,10 @@ public class MainActivityFragment extends Fragment {
     // Shared Preferences
     private static SharedPreferences mSharedPreferences;
     public static Configuration sConfiguration;
+    private TwData mTwData;
 
     public MainActivityFragment() {
+        mTwData = new TwData();
     }
 
     @Override
@@ -74,6 +87,7 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, v);
+
         return v;
     }
 
@@ -187,7 +201,7 @@ public class MainActivityFragment extends Fragment {
         twitter.setOAuthAccessToken(accessToken1);
 
         TwitterRetrofit.getInstance().createTwitterApi(twitter);
-        //TwitterRetrofit.getInstance().twGetHomeTimeline();
+//        TwitterRetrofit.getInstance().twGetHomeTimeline();
         TwitterRetrofit.getInstance().twGetUserDetails("deepraWearables");
     }
 
@@ -200,8 +214,8 @@ public class MainActivityFragment extends Fragment {
         StrictMode.setThreadPolicy(policy);
 
         // Check if already logged in
-        if (!isTwitterLoggedInAlready()) {
-
+//        if (!isTwitterLoggedInAlready()) {
+//
 
 
             try {
@@ -212,11 +226,11 @@ public class MainActivityFragment extends Fragment {
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
-        } else {
-            // user already logged into twitter
-            Toast.makeText(getActivity(),
-                    "Already Logged into twitter", Toast.LENGTH_LONG).show();
-        }
+//        } else {
+//            // user already logged into twitter
+//            Toast.makeText(getActivity(),
+//                    "Already Logged into twitter", Toast.LENGTH_LONG).show();
+//        }
     }
 
     /**
@@ -226,5 +240,10 @@ public class MainActivityFragment extends Fragment {
     private boolean isTwitterLoggedInAlready() {
         // return twitter login status from Shared Preferences
         return mSharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
+    }
+
+    @Override
+    public TwData getTwData() {
+        return mTwData;
     }
 }

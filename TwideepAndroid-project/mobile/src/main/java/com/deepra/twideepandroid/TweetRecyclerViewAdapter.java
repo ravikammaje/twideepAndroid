@@ -13,9 +13,9 @@ import com.deepra.twitter.data.TwStatus;
 public class TweetRecyclerViewAdapter extends RecyclerView.Adapter<TweetRecyclerViewAdapter.ViewHolder> {
 
     private final TwSortedList mTwSortedList;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnVertTwClickListener mListener;
 
-    public TweetRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+    public TweetRecyclerViewAdapter(OnVertTwClickListener listener) {
         mTwSortedList = new TwSortedList(this);
         mListener = listener;
     }
@@ -28,7 +28,7 @@ public class TweetRecyclerViewAdapter extends RecyclerView.Adapter<TweetRecycler
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mTwSortedList.getTwStatuses().get(position);
         holder.mIdView.setText(mTwSortedList.getTwStatuses().get(position).getUser().getName());
         holder.mContentView.setText(mTwSortedList.getTwStatuses().get(position).getText());
@@ -39,7 +39,7 @@ public class TweetRecyclerViewAdapter extends RecyclerView.Adapter<TweetRecycler
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onVertTwClick(TweetRecyclerViewAdapter.this, position);
                 }
             }
         });

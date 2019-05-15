@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.deepra.twitter.OAuthToken;
 import com.deepra.twitter.TwitterRetrofit;
@@ -33,25 +34,15 @@ public class TimelineFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private TWDataProvider mTwDataProvider;
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private OnVertTwClickListener mListener;
     private TweetRecyclerViewAdapter mAdapter;
 
 
-//    private OAuthToken mToken;
-//    private Credentials mCredentials;
-//    private TwitterService mTwitterService;
-
-//    private TwSortedList mTwSortedList;
-
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public TimelineFragment() {
-//        mTwSortedList = new TwSortedList();
+
     }
 
     public void setArguments(OAuthToken token, Credentials credentials, TwitterService twitterService) {
@@ -94,28 +85,41 @@ public class TimelineFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
+//            createItemListener();
             mAdapter = new TweetRecyclerViewAdapter(mListener);
             recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
 
+//    private void createItemListener() {
+//        mListener = new onItemClickListener() {
+//            @Override
+//            public void onClick(TweetRecyclerViewAdapter adapter, int position) {
+//                Toast.makeText(getContext(), "Please wait while we navigate to reader view...", Toast.LENGTH_LONG).show();
+//                TwStatus status = adapter.getTwSortedList().getTwStatuses().get(position);
+//                if(status.getText().contains("http://") || status.getText().contains("https://")) {
+//                    Toast.makeText(getContext(), "Navigating to..." + status.getText(), Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        };
+//    }
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnListFragmentInteractionListener) {
-//            mListener = (OnListFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
+        if(context instanceof  OnVertTwClickListener)
+            mListener = (OnVertTwClickListener)context;
+        if(context instanceof  TWDataProvider)
+            mTwDataProvider = (TWDataProvider)context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mTwDataProvider = null;
     }
 
     /**
@@ -134,7 +138,7 @@ public class TimelineFragment extends Fragment {
     }
 
     public void twGetHomeTimeline() {
-        TwitterRetrofit.getInstance().getTwitterApi().getUserHomeTimeline(50).enqueue(mUserHomeTimelineCallback);
+        TwitterRetrofit.getInstance().getTwitterApi().getUserHomeTimeline(200, "extended").enqueue(mUserHomeTimelineCallback);
     }
     //Retrofit callbacks
     //GetUserHomeTimeLine
@@ -143,6 +147,8 @@ public class TimelineFragment extends Fragment {
         public void onResponse(Call<List<TwStatus>> call, retrofit2.Response<List<TwStatus>> response) {
             if (response.isSuccessful()) {
                 List<TwStatus> twStatuses = response.body();
+                mTwDataProvider.getTwData().setTweets(twStatuses);
+
                 mAdapter.getTwSortedList().getTwStatuses().addAll(twStatuses);
                 for(int i=0; i < mAdapter.getTwSortedList().getTwStatuses().size(); i++) {
                     TwStatus status = mAdapter.getTwSortedList().getTwStatuses().get(i);

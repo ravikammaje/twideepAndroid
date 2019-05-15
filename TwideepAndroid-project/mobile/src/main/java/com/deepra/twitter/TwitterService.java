@@ -27,7 +27,7 @@ public interface TwitterService {
                                                  @Query("include_entities") boolean include_entities);
 
         @GET("1.1/statuses/home_timeline.json")
-        Call<List<TwStatus>> getUserHomeTimeline(@Query("count") int count);
+        Call<List<TwStatus>> getUserHomeTimeline(@Query("count") int count, @Query("tweet_mode") String extended);
 
         @GET("1.1/statuses/home_timeline.json")
         Call<List<TwStatus>> getUserHomeTimeline();

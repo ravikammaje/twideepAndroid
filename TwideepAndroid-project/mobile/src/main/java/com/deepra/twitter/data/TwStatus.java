@@ -19,11 +19,28 @@ public class TwStatus {
     String in_reply_to_status_id_str;
     boolean retweeted;
     String in_reply_to_user_id;
-    String place;
+    //String place;
     String source;
     UserDetails user;
     String in_reply_to_screen_name;
     String in_reply_to_status_id;
+    String full_text;
+
+    public String getTweet() {
+        if(text == null)
+            return full_text;
+        if(full_text == null)
+            return text;
+        return (full_text.length() > text.length()) ? full_text : text;
+    }
+
+    public String getFull_text() {
+        return getTweet();
+    }
+
+    public void setFull_text(String full_text) {
+        this.full_text = full_text;
+    }
 
     public String getCreated_at() {
         return created_at;
@@ -73,7 +90,7 @@ public class TwStatus {
     }
 
     public String getText() {
-        return text;
+        return getTweet();
     }
 
     public TwStatus setText(String text) {
@@ -135,14 +152,14 @@ public class TwStatus {
         return this;
     }
 
-    public String getPlace() {
-        return place;
-    }
-
-    public TwStatus setPlace(String place) {
-        this.place = place;
-        return this;
-    }
+//    public String getPlace() {
+//        return place;
+//    }
+//
+//    public TwStatus setPlace(String place) {
+//        this.place = place;
+//        return this;
+//    }
 
     public String getSource() {
         return source;
