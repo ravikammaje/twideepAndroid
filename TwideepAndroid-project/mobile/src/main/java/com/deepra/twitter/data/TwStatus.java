@@ -25,8 +25,20 @@ public class TwStatus {
     String in_reply_to_screen_name;
     String in_reply_to_status_id;
     String full_text;
+    TwStatus retweeted_status;
+
+    public TwStatus getRetweeted_status() {
+        return retweeted_status;
+    }
+
+    public void setRetweeted_status(TwStatus retweeted_status) {
+        this.retweeted_status = retweeted_status;
+    }
 
     public String getTweet() {
+        if(retweeted_status != null) {
+            return "RT " + retweeted_status.getTweet();
+        }
         if(text == null)
             return full_text;
         if(full_text == null)

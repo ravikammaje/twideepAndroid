@@ -15,23 +15,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.deepra.oauth.twideepandroid.OAuthInfo;
 import com.deepra.twitter.TwitterRetrofit;
+import com.deepra.twitter.data.TWDataProvider;
 import com.deepra.twitter.data.TwData;
+import com.deepra.ui.TimelineFragment;
 import com.deepra.utils.AlertDialogManager;
 import com.deepra.utils.ConnectionDetector;
-
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.X509TrustManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

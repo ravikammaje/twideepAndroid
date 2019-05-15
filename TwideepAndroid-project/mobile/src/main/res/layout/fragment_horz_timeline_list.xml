@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layoutManager="LinearLayoutManager"
-            tools:context=".TimelineFragment"
+            tools:context="com.deepra.ui.TimelineFragment"
             />
     </ScrollView>
 

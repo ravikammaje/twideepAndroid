@@ -1,4 +1,4 @@
-package com.deepra.twideepandroid;
+package com.deepra.twitter.data;
 
 import com.deepra.twitter.data.TwData;
 

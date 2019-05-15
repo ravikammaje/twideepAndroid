@@ -1,8 +1,7 @@
-package com.deepra.twideepandroid;
+package com.deepra.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,6 +13,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.deepra.twideepandroid.R;
+import com.deepra.twitter.data.TWDataProvider;
 import com.deepra.twitter.data.TwSortedList;
 import com.deepra.twitter.data.TwStatus;
 
@@ -72,11 +73,14 @@ public class ReaderFragment extends Fragment {
             public void onHorzClick(HorzRecyclerViewAdapter mAdapter, int i) {
                 TwStatus status = mAdapter.getTwSortedList().getTwStatuses().get(i);
                 int indexLinkStart = 0;
-                indexLinkStart = status.getText().indexOf("http://");
+                String statusStr = status.getText();
+                if(status.getRetweeted_status() != null)
+                    statusStr = "RT "+status.getRetweeted_status().getText();
+                indexLinkStart = statusStr.indexOf("http://");
                 if(indexLinkStart == -1)
-                    indexLinkStart = status.getText().indexOf("https://");
+                    indexLinkStart = statusStr.indexOf("https://");
                 if(indexLinkStart != -1) {
-                    String link = status.getText().substring(indexLinkStart);
+                    String link = statusStr.substring(indexLinkStart);
                     link = link.split("\\s")[0];
 
                     final ProgressDialog progDailog = ProgressDialog.show(getContext(), "Loading", "Please wait...", true);

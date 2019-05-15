@@ -1,4 +1,4 @@
-package com.deepra.twideepandroid;
+package com.deepra.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,12 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.deepra.twideepandroid.R;
+import com.deepra.twitter.data.TWDataProvider;
 import com.deepra.twitter.OAuthToken;
 import com.deepra.twitter.TwitterRetrofit;
 import com.deepra.twitter.TwitterService;
-import com.deepra.twitter.data.TwSortedList;
 import com.deepra.twitter.data.TwStatus;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.deepra.twideepandroid;
+package com.deepra.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.deepra.twideepandroid.TimelineFragment.OnListFragmentInteractionListener;
+import com.deepra.twideepandroid.R;
 import com.deepra.twitter.data.TwSortedList;
 import com.deepra.twitter.data.TwStatus;
 

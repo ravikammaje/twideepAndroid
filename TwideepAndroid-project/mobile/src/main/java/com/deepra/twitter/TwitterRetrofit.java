@@ -2,17 +2,11 @@ package com.deepra.twitter;
 
 import android.util.Log;
 
-import com.deepra.twideepandroid.MainActivity;
-import com.deepra.twitter.data.TwStatus;
+import com.deepra.ui.MainActivity;
 import com.deepra.utils.UnSafeOKHttp;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 
-import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

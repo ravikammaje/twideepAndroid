@@ -1,8 +1,7 @@
-package com.deepra.twideepandroid;
+package com.deepra.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.TextView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +10,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.deepra.twideepandroid.MainActivityFragment;
+import com.deepra.twideepandroid.R;
+import com.deepra.twitter.data.TWDataProvider;
 import com.deepra.twitter.data.TwData;
 
 import java.security.SecureRandom;
