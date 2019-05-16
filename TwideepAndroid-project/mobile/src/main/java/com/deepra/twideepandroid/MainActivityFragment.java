@@ -170,13 +170,15 @@ public class MainActivityFragment extends Fragment implements TWDataProvider {
             }
         }
         else {
-            mBtnTimeLine.setVisibility(View.VISIBLE);
-            mBtnTimeLine.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    navigateToTimelineFragment();
-                }
-            });
+            navigateToTimelineFragment();
+
+//            mBtnTimeLine.setVisibility(View.VISIBLE);
+//            mBtnTimeLine.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    navigateToTimelineFragment();
+//                }
+//            });
         }
     }
 

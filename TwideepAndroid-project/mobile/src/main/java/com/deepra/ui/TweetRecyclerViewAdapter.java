@@ -7,38 +7,50 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.deepra.twideepandroid.R;
-import com.deepra.twitter.data.TwSortedList;
 import com.deepra.twitter.data.TwStatus;
+import com.deepra.twitter.data.TweetList;
 
 public class TweetRecyclerViewAdapter extends RecyclerView.Adapter<TweetRecyclerViewAdapter.ViewHolder> {
 
-    private final TwSortedList mTwSortedList;
+    public static final int FORMAT_TWEET_HORIZONTAL = 1;
+    public static final int FORMAT_TWEET_VERTICAL = 2;
+
+    private final int mFormatStyle;
+    private TweetList mTwSortedList;
+
+    public TweetList getTwSortedList() {
+        return mTwSortedList;
+    }
+
     private final OnVertTwClickListener mListener;
 
-    public TweetRecyclerViewAdapter(OnVertTwClickListener listener) {
-        mTwSortedList = new TwSortedList(this);
+    public TweetRecyclerViewAdapter(OnVertTwClickListener listener, int formatStyle) {
+        mFormatStyle = formatStyle;
         mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View view;
+        if(mFormatStyle == FORMAT_TWEET_HORIZONTAL)
+            view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_timeline, parent, false);
+        else
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_timeline_vert, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.mItem = mTwSortedList.getTwStatuses().get(position);
-        holder.mIdView.setText(mTwSortedList.getTwStatuses().get(position).getUser().getName());
-        holder.mContentView.setText(mTwSortedList.getTwStatuses().get(position).getText());
+        holder.mItem = mTwSortedList.get(position);
+        holder.mIdView.setText(mTwSortedList.get(position).getUser().getName());
+        holder.mContentView.setText(mTwSortedList.get(position).getText());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
                     mListener.onVertTwClick(TweetRecyclerViewAdapter.this, position);
                 }
             }
@@ -47,11 +59,14 @@ public class TweetRecyclerViewAdapter extends RecyclerView.Adapter<TweetRecycler
 
     @Override
     public int getItemCount() {
-        return mTwSortedList.getTwStatuses().size();
+        if(mTwSortedList == null)
+            return 0;
+        return mTwSortedList.size();
     }
 
-    public TwSortedList getTwSortedList() {
-        return mTwSortedList;
+    public void setTweetList(TweetList tweetList) {
+        mTwSortedList = tweetList;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,3 +88,9 @@ public class TweetRecyclerViewAdapter extends RecyclerView.Adapter<TweetRecycler
         }
     }
 }
+
+interface OnVertTwClickListener {
+
+    public void onVertTwClick(TweetRecyclerViewAdapter adapter, int position);
+}
+

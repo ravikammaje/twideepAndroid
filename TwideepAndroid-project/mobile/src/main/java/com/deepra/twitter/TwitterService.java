@@ -32,4 +32,10 @@ public interface TwitterService {
         @GET("1.1/statuses/home_timeline.json")
         Call<List<TwStatus>> getUserHomeTimeline();
 
+        @GET("1.1/statuses/user_timeline.json")
+        Call<List<TwStatus>> getUserSentTimeline(@Query("screen_name") String screen_name, @Query("tweet_mode") String extended);
+
+
+        @GET("1.1/statuses/user_timeline.json")
+        Call<List<TwStatus>> getUserSentTimeline(@Query("tweet_mode") String extended);
 }

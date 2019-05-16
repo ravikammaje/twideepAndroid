@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/compose_box"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="4dp"
+        android:hint="whats happening?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/add_to_queue"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Add to queue"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/compose_box" />
+
+    <Button
+        android:id="@+id/send_now"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="send now"
+        app:layout_constraintLeft_toRightOf="@+id/add_to_queue"
+        app:layout_constraintTop_toBottomOf="@id/compose_box" />
+
+    <Button
+        android:id="@+id/move_left"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="move left"
+        app:layout_constraintLeft_toRightOf="@+id/move_right"
+        app:layout_constraintTop_toBottomOf="@id/compose_box" />
+
+    <Button
+        android:id="@+id/move_right"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="move right"
+        app:layout_constraintLeft_toRightOf="@+id/send_now"
+        app:layout_constraintTop_toBottomOf="@id/compose_box" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@+id/send_now" />
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/sent_list"
+        android:name="com.deepra.twideepandroid.TimelineFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/send_now"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".48"
+        tools:context="com.deepra.ui.TimelineFragment"
+        tools:listitem="@layout/fragment_timeline" />
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/to_send_list"
+        android:name="com.deepra.twideepandroid.TimelineFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/send_now"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".48"
+        tools:context="com.deepra.ui.TimelineFragment"
+        tools:listitem="@layout/fragment_timeline" />
+
+</android.support.constraint.ConstraintLayout>
+

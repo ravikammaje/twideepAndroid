@@ -15,16 +15,16 @@ import android.widget.TextView;
 
 import com.deepra.twideepandroid.R;
 import com.deepra.twitter.data.TWDataProvider;
-import com.deepra.twitter.data.TwSortedList;
 import com.deepra.twitter.data.TwStatus;
+import com.deepra.twitter.data.TweetList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReaderFragment extends Fragment {
 
     private OnHorzClickListener mOnHorzClickListener;
     private HorzRecyclerViewAdapter mAdapter;
-    private TwSortedList mTwSortedList;
     private TWDataProvider mTwDataProvider;
     private WebView mWebView;
 
@@ -49,11 +49,10 @@ public class ReaderFragment extends Fragment {
         RecyclerView twRecyclerView = (RecyclerView)v.findViewById(R.id.horz_list);
         mAdapter = new HorzRecyclerViewAdapter(mOnHorzClickListener);
         twRecyclerView.setAdapter(mAdapter);
-        mTwSortedList = new TwSortedList(mAdapter);
         mWebView = v.findViewById(R.id.webview);
 
-        List<TwStatus> twStatuses = mTwDataProvider.getTwData().getTweets();
-        mAdapter.getTwSortedList().getTwStatuses().addAll(twStatuses);
+        TweetList twStatuses = mTwDataProvider.getTwData().getTweets();
+        mAdapter.setTweetList(twStatuses);
         return v;
     }
 
@@ -71,7 +70,7 @@ public class ReaderFragment extends Fragment {
         OnHorzClickListener onHorzClickListener = new OnHorzClickListener() {
             @Override
             public void onHorzClick(HorzRecyclerViewAdapter mAdapter, int i) {
-                TwStatus status = mAdapter.getTwSortedList().getTwStatuses().get(i);
+                TwStatus status = mAdapter.getList().get(i);
                 int indexLinkStart = 0;
                 String statusStr = status.getText();
                 if(status.getRetweeted_status() != null)
@@ -119,15 +118,13 @@ public class ReaderFragment extends Fragment {
 
     private class HorzRecyclerViewAdapter extends RecyclerView.Adapter<HorzRecyclerViewAdapter.ViewHolder>{
 
-        private final TwSortedList mTwSortedList;
+        private TweetList mTwSortedList;
 
-        public TwSortedList getTwSortedList() {
+        public TweetList getList() {
             return mTwSortedList;
         }
 
         public HorzRecyclerViewAdapter(OnHorzClickListener listener) {
-            mTwSortedList = new TwSortedList(this);
-
         }
 
         @NonNull
@@ -139,9 +136,9 @@ public class ReaderFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int i) {
-            holder.mItem = mTwSortedList.getTwStatuses().get(i);
-            holder.mIdView.setText(mTwSortedList.getTwStatuses().get(i).getUser().getName());
-            holder.mContentView.setText(mTwSortedList.getTwStatuses().get(i).getText());
+            holder.mItem = mTwSortedList.get(i);
+            holder.mIdView.setText(mTwSortedList.get(i).getUser().getName());
+            holder.mContentView.setText(mTwSortedList.get(i).getText());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -155,7 +152,11 @@ public class ReaderFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mTwSortedList.getTwStatuses().size();
+            return mTwSortedList.size();
+        }
+
+        public void setTweetList(TweetList tweetList) {
+            mTwSortedList = tweetList;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {

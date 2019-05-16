@@ -5,14 +5,32 @@ import java.util.List;
 public class TwData {
 
 
-    private List<TwStatus> mTweets;
+    private TweetList mTweets;
 
+    public TweetList getSentTweets() {
+        return mSentTweets;
+    }
 
-    public List<TwStatus> getTweets() {
+    private TweetList mSentTweets;
+
+    public TwData() {
+        mTweets = new TweetList();
+        mSentTweets = new TweetList();
+    }
+
+    public TweetList getTweets() {
         return mTweets;
     }
 
-    public void setTweets(List<TwStatus> tweets) {
-        this.mTweets = tweets;
+    public void setTweets(TweetList tweetList) {
+        this.mTweets = tweetList;
+    }
+
+    public void addTweets(List<TwStatus> twStatuses) {
+        mTweets.getTweetList().addAll(twStatuses);
+    }
+
+    public void addSentTweets(List<TwStatus> twStatuses) {
+        mSentTweets.getTweetList().addAll(twStatuses);
     }
 }

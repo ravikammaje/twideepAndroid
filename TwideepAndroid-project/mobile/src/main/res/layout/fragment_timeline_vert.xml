@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/item_number"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -18,18 +18,20 @@
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="user"/>
+        android:textAlignment="center"
+        android:text="user"
+        android:textStyle="bold"/>
 
 
     <TextView
         android:id="@+id/content"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintStart_toEndOf="@id/item_number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="status from user"/>
+        app:layout_constraintTop_toBottomOf="@id/item_number"
+        android:text="status from user"
+        android:textAlignment="center"/>
 
     <View
         android:id="@+id/view"
