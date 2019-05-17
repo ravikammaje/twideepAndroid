@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements OnVertTwClickList
         transaction.replace(R.id.fragment_container, readerFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+
+        readerFragment.selectItem(position);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.deepra.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,15 +19,14 @@ import com.deepra.twitter.data.TWDataProvider;
 import com.deepra.twitter.data.TwStatus;
 import com.deepra.twitter.data.TweetList;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ReaderFragment extends Fragment {
 
     private OnHorzClickListener mOnHorzClickListener;
     private HorzRecyclerViewAdapter mAdapter;
     private TWDataProvider mTwDataProvider;
     private WebView mWebView;
+    private RecyclerView mTwRecyclerView;
+    private int mSelectedItem;
 
     public ReaderFragment() {
     }
@@ -46,9 +46,10 @@ public class ReaderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_horz_timeline_list, container, false);
-        RecyclerView twRecyclerView = (RecyclerView)v.findViewById(R.id.horz_list);
+        mTwRecyclerView = (RecyclerView)v.findViewById(R.id.horz_list);
         mAdapter = new HorzRecyclerViewAdapter(mOnHorzClickListener);
-        twRecyclerView.setAdapter(mAdapter);
+        mAdapter.setSelectedItem(mSelectedItem);
+        mTwRecyclerView.setAdapter(mAdapter);
         mWebView = v.findViewById(R.id.webview);
 
         TweetList twStatuses = mTwDataProvider.getTwData().getTweets();
@@ -66,10 +67,15 @@ public class ReaderFragment extends Fragment {
         mOnHorzClickListener = createHorzClickListener();
     }
 
+    public void selectItem(int i) {
+        mSelectedItem = i;
+    }
+
     private OnHorzClickListener createHorzClickListener() {
         OnHorzClickListener onHorzClickListener = new OnHorzClickListener() {
             @Override
             public void onHorzClick(HorzRecyclerViewAdapter mAdapter, int i) {
+                mSelectedItem = i;
                 TwStatus status = mAdapter.getList().get(i);
                 int indexLinkStart = 0;
                 String statusStr = status.getText();
@@ -119,6 +125,8 @@ public class ReaderFragment extends Fragment {
     private class HorzRecyclerViewAdapter extends RecyclerView.Adapter<HorzRecyclerViewAdapter.ViewHolder>{
 
         private TweetList mTwSortedList;
+        private int mSelectedItem;
+        private RecyclerView mRecyclerView;
 
         public TweetList getList() {
             return mTwSortedList;
@@ -135,17 +143,49 @@ public class ReaderFragment extends Fragment {
         }
 
         @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+
+            mRecyclerView = recyclerView;
+        }
+
+        @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, final int i) {
             holder.mItem = mTwSortedList.get(i);
             holder.mIdView.setText(mTwSortedList.get(i).getUser().getName());
             holder.mContentView.setText(mTwSortedList.get(i).getText());
+            holder.mView.setBackgroundColor(Color.parseColor("#00000000"));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (null != mOnHorzClickListener) {
                         mOnHorzClickListener.onHorzClick(mAdapter, i);
+                        v.setBackgroundColor(Color.parseColor("#567845"));
+
                     }
+                }
+            });
+
+//            holder.mContentView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    v.setBackgroundColor(Color.parseColor("#567845"));
+//                }
+//            });
+
+            if(mSelectedItem == i) {
+                holder.mView.performClick();
+            }
+
+            scrollToSelectedItem(holder, i);
+        }
+
+        private void scrollToSelectedItem(@NonNull final ViewHolder holder, final int i) {
+            mRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerView.smoothScrollToPosition(mSelectedItem);
                 }
             });
         }
@@ -157,6 +197,14 @@ public class ReaderFragment extends Fragment {
 
         public void setTweetList(TweetList tweetList) {
             mTwSortedList = tweetList;
+        }
+
+        public int getSelectedItem() {
+            return mSelectedItem;
+        }
+
+        public void setSelectedItem(int selectedItem) {
+            this.mSelectedItem = selectedItem;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
