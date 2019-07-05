@@ -1,5 +1,6 @@
 package com.deepra.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 
 import com.deepra.twideepandroid.MainActivityFragment;
 import com.deepra.twideepandroid.R;
+import com.deepra.twideepandroid.TweetSenderService;
 import com.deepra.twitter.data.TWDataProvider;
 import com.deepra.twitter.data.TwData;
 
@@ -80,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements OnVertTwClickList
         transaction.commit();
 
 
+        Intent intent = new Intent(this, TweetSenderService.class);
+        startService(intent);
 
         mTwData = new TwData();
     }

@@ -9,15 +9,14 @@
     <!-- Network State Permissions -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity
             android:name="com.deepra.ui.MainActivity"
             android:label="@string/app_name"
@@ -27,11 +26,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="oauth" />
             </intent-filter>
         </activity>
@@ -40,7 +40,7 @@
             android:name="com.google.android.gms.car.application"
             android:resource="@xml/automotive_app_desc" />
 
-        <service android:name=".MyMessagingService"></service>
+        <service android:name=".MyMessagingService" />
 
         <receiver android:name=".MessageReadReceiver">
             <intent-filter>
@@ -52,6 +52,10 @@
                 <action android:name="com.deepra.twideepandroid.ACTION_MESSAGE_REPLY" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".TweetSenderService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

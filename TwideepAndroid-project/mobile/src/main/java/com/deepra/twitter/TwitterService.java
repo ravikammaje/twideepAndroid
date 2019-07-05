@@ -5,6 +5,7 @@ import com.deepra.twitter.data.TwStatus;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -37,5 +38,14 @@ public interface TwitterService {
 
 
         @GET("1.1/statuses/user_timeline.json")
-        Call<List<TwStatus>> getUserSentTimeline(@Query("tweet_mode") String extended);
+        Call<List<TwStatus>> getUserSentTimeline(@Query("tweet_mode") String extended, @Query("count") int count);
+
+        @POST("1.1/statuses/update.json")
+        @FormUrlEncoded
+        Call<TwStatus> postTweet(@Field("status") String status, @Field("media_ids") String media_ids);
+
+        @POST("1.1/statuses/update.json")
+        @FormUrlEncoded
+        Call<TwStatus> postTweet(@Field("status") String status);
+
 }

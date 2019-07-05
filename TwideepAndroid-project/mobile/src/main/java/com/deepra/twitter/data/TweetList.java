@@ -30,7 +30,8 @@ public class TweetList {
         Comparator c = new Comparator<TwStatus>() {
             @Override
             public int compare(TwStatus t1, TwStatus t2) {
-                return Long.compare(t1.getId(), t2.getId());
+                //reverse chronological order
+                return -(Long.compare(t1.getId(), t2.getId()));
             }
         };
         return c;

@@ -7,6 +7,13 @@ public class UserDetails {
     private String description;
     private String url;
 
+    public UserDetails() {
+        name="";
+        location="";
+        description="";
+        url="";
+    }
+
     public String getName() {
         return name;
     }

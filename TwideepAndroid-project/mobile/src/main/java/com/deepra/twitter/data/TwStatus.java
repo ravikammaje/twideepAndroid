@@ -2,6 +2,9 @@ package com.deepra.twitter.data;
 
 import com.deepra.twitter.UserDetails;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TwStatus {
@@ -26,6 +29,50 @@ public class TwStatus {
     String in_reply_to_status_id;
     String full_text;
     TwStatus retweeted_status;
+    Entities entities;
+    Entities extended_entities;
+    String mediaIdString;
+
+    public TwStatus() {
+        created_at="";
+
+        id_str="";
+        in_reply_to_user_id_str="";
+        text="";
+        contributors="";
+
+
+        in_reply_to_status_id_str="";
+
+        in_reply_to_user_id="";
+
+        source="";
+        user=new UserDetails();
+
+        in_reply_to_screen_name="";
+        in_reply_to_status_id="";
+        full_text="";
+
+
+
+        mediaIdString="";
+    }
+
+    public String getMediaIdString() {
+        return mediaIdString;
+    }
+
+    public void setMediaIdString(String mediaIdString) {
+        this.mediaIdString = mediaIdString;
+    }
+
+    public Entities getExtended_entities() {
+        return extended_entities;
+    }
+
+    public void setExtended_entities(Entities extended_entities) {
+        this.extended_entities = extended_entities;
+    }
 
     public TwStatus getRetweeted_status() {
         return retweeted_status;
@@ -56,6 +103,19 @@ public class TwStatus {
 
     public String getCreated_at() {
         return created_at;
+    }
+
+    public Date getCreatedAtDate() {
+        //Wed Nov 03 19:13:52 +0000 2010
+        String pattern = "EEE MMM dd hh:mm:ss Z yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(getCreated_at());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     public TwStatus setCreated_at(String created_at) {
@@ -207,5 +267,13 @@ public class TwStatus {
     public TwStatus setIn_reply_to_status_id(String in_reply_to_status_id) {
         this.in_reply_to_status_id = in_reply_to_status_id;
         return this;
+    }
+
+    public Entities getEntities() {
+        return entities;
+    }
+
+    public void setEntities(Entities entities) {
+        this.entities = entities;
     }
 }
